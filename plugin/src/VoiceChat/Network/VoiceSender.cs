@@ -10,7 +10,7 @@ namespace H3VC.Network
             var packet = sgmnt.ToPacket(-1, packetID);
             H3MP.Networking.ClientSend.SendUDPData(packet);
         }
-        public static void ServerRelaySend(int sender, OpusSegment sgmnt) {
+        public static void ServerSend(int sender, OpusSegment sgmnt) {
             var packet = sgmnt.ToPacket(-1, packetID);
 
             packet.WriteLength();

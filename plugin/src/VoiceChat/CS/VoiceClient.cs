@@ -35,16 +35,22 @@ namespace H3VC.CS
 
 
         public void Start() {
-            Mod.Logger.LogInfo("H3VC ClientStart...");
+            Mod.Logger.LogInfo("H3VC ClientStart");
 
             var disposer = input.OnVoiceReady
                  .SelectMany(encoder.Encode)
                  .Subscribe(sgmnt => {
                      if (ThreadManager.host) {
-                         H3VC.Mod.Logger.LogInfo("VoiceSended From Server");
+                         VoiceSender.ServerSend(0, sgmnt);
+#if debug
+                         H3VC.Mod.Logger.LogDebug("VoiceSended From Server");
+#endif
+
                      } else {
                          VoiceSender.ClientSend(sgmnt);
-                         //H3VC.Mod.Logger.LogInfo("VoiceSended From Client");
+#if debug
+                         //H3VC.Mod.Logger.LogDebug("VoiceSended From Client");
+#endif
                      }
                  })
                  .AddTo(disposerList);
@@ -56,9 +62,6 @@ namespace H3VC.CS
             */
             receiver.OnVoiceReceived
                     .Subscribe(data => {
-                        if (ThreadManager.host) {
-                            H3VC.Mod.Logger.LogInfo("VoiceReceived!!!");
-                        }
                         var opusCopied = new OpusSegment(data.Item2.data, data.Item2.length);
                         var pcmData = decoder.Decode(opusCopied);
                         player.Play(data.Item1, pcmData);

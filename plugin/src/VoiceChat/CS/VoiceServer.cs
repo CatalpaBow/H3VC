@@ -15,7 +15,7 @@ namespace H3VC.CS
         }
         public void Start() {
             disposable = receiver.OnVoiceReceived
-                    .Subscribe(data => VoiceSender.ServerRelaySend(data.Item1, data.Item2));
+                    .Subscribe(data => VoiceSender.ServerSend(data.Item1, data.Item2));
 
         }
         public void Stop() {
