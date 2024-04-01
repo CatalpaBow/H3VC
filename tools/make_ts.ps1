@@ -36,6 +36,7 @@ Copy-Item (Join-Path $RootDir "README.md") $TempDir
 Copy-Item (Join-Path $RootDir "LICENSE") $TempDir -ErrorAction Ignore
 Copy-Item "${OutputPath}${PluginName}.dll" $TempDir
 Copy-Item "${OutputPath}${PluginName}.dll.mdb" $TempDir -ErrorAction Ignore
+Copy-Item (Join-Path $RootDir "plugin\src\Library\unityopus\Plugins\x64\UnityOpus.dll") $TempDir
 
 # Copy all our extra files into the output dir
 foreach ($ExtraFile in $ExtraFiles)
@@ -56,6 +57,13 @@ $ManifestContent = $ManifestContent.replace("{{DESCRIPTION}}", $PluginDescriptio
 $ManifestContent = $ManifestContent.replace("{{URL}}", $PluginUrl)
 $ManifestContent = $ManifestContent.replace("{{AUTHOR}}", $PluginAuthor)
 Set-Content $ManifestPath $ManifestContent
+
+$folderName = "CatalpaBow-H3VC"
+Rename-Item "${TempDir}" "${folderName}"
+$TempDir = Join-Path (Split-Path -Parent "${tempDir}") "${folderName}"
+Copy-Item "${TempDir}" "F:\Games\OtherGames\R2Mod\H3VR\profiles\H3VC\BepInEx\plugins" -Force -Recurse
+$sharePath = "\\DESKTOP-9HSCI6K\plugins"
+Copy-Item "${TempDir}" "${sharePath}" -Force -Recurse
 
 # Make a zip archive from the folder
 $OutputPath = Join-Path $OutputPath "${PluginName}.zip"

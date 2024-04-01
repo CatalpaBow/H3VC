@@ -1,0 +1,39 @@
+@startuml
+package Infrastructure{
+}
+
+package Domein{
+
+}
+package VoiceChat{
+    package Session{
+        abstract class VoiceChatSession{
+            + void Join()
+            + void Leave() 
+        }
+        class ClientSession{
+
+        }
+        ClientSession --|> VoiceChatSession
+        class HostSession{
+
+        }
+        HostSession --|> VoiceChatSession
+        class SessionStarter{
+            + ClientSession StartWithClient()
+            + HostSession StartWithHost() 
+        }
+        SessionStarter --> ClientSession
+        SessionStarter --> HostSession
+    }
+    interface VoiceChatInput{
+
+    }
+    interface VoiceChatOutput{
+
+    }
+    interface VoiceChatNetwrok{
+
+    }
+}
+@enduml
