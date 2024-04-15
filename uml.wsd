@@ -1,0 +1,93 @@
+@startuml
+package AudioPipelines{
+    class AudioPipeline{
+        - IAudioInput userSelfInput
+        - IAudioOutput userSelfOutput
+        - IAudioInput otherUsersSource
+        - IAudioOutput otherUsersOutput    
+    }
+    interface IAudioOutput{
+        + void Output(int id,PCMSegment sgmnt)
+        + void ChangeSoundMode(int id, SoundMode mode)
+        + void ChangeMute(int id,bool isMute)
+    }
+    interface IAudioInput{
+        + IObservable<int,PCMSegment> OnAudioReady
+        + IObservable<int,bool> OnMuteChanged
+        + IObservable<int,SoundMode> OnSoundModeChanged
+    }
+}
+
+
+package Network{
+    class NetworkAudioListener{
+
+    }
+    class NetwrokAudioStreamer{
+        + void Send(PCMSegment sgmnt)
+    }
+}
+package VCUsers{
+    class VCUserList{
+    + IObservable<int> OnJoined
+    + IObservable<int> OnLeaved
+    }
+}
+
+package Speakers{
+
+    class VCUserAudioSpeaker{
+
+    }
+
+    class PlayerBodyAudioSpeaker{
+        - bool isMute
+        - SoundMode mode
+
+        + void ChangeVolume()
+    }
+}
+
+package VoiceRecoders{
+    class VoiceRecoder{
+        - bool isMute
+        - SoundMode mode
+
+        + void StartRecoding()
+        + void ChangeMute()
+        + void ChangeVolume()
+    }
+
+    class Microphone{
+
+    }
+    interface IMultipleDevice{
+        + IEnumerable<DeviceInfo> ShowDevices()
+        + void ChangeDevice(int deviceNum)
+    }
+}
+package H3MPWrapper{
+    class Players{
+        IObservable<int> OnPlayerAdded
+        IObservable<int> OnPlayerRemoved
+        IObservable<
+    }
+}
+
+IAudioOutput <|.. NetwrokAudioStreamer
+IAudioOutput <|.. VCUserAudioSpeaker
+IAudioInput <|.. VoiceRecoder 
+IAudioInput <|.. NetworkAudioListener
+
+AudioPipeline "1" o-- "2" IAudioOutput
+AudioPipeline "1" o-- "2" IAudioInput
+
+VoiceRecoder ..|> IMultipleDevice
+VoiceRecoder "1" --> "1" Microphone
+
+Microphone ..|> IMultipleDevice
+
+VCUserAudioSpeaker "1" o-- "0..*" PlayerBodyAudioSpeaker
+
+VCUserList  "1" <-- "1" VCUserAudioSpeaker  : Observe <
+@enduml

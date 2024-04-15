@@ -37,7 +37,7 @@ Copy-Item (Join-Path $RootDir "LICENSE") $TempDir -ErrorAction Ignore
 Copy-Item "${OutputPath}${PluginName}.dll" $TempDir
 Copy-Item "${OutputPath}${PluginName}.dll.mdb" $TempDir -ErrorAction Ignore
 Copy-Item (Join-Path $RootDir "plugin\src\Library\unityopus\Plugins\x64\UnityOpus.dll") $TempDir
-
+Copy-Item (Join-Path $RootDir "plugin\src\Library\NAudio.dll") $TempDir
 # Copy all our extra files into the output dir
 foreach ($ExtraFile in $ExtraFiles)
 {

@@ -4,8 +4,7 @@ using System;
 using UniRx;
 namespace H3VC.Network
 {
-    public class VoiceReceiver : IDisposable
-    {
+    public class VoiceReceiver : IDisposable{
         public static VoiceReceiver Instance => _instance ?? (_instance = new VoiceReceiver());
         private static VoiceReceiver _instance;
         public static string packetName = "H3VC_VoiceData";

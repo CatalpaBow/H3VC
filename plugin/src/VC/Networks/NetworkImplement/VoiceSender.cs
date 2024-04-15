@@ -23,5 +23,13 @@ namespace H3VC.Network
 
             //H3MP.Networking.ServerSend.SendUDPData(Server.connectedClients,packet);
         }
+
+        public static void SendFromClient(OpusSegment sgmnt) {
+            if (ThreadManager.host) {
+                ServerSend(0, sgmnt);
+            } else {
+                ClientSend(sgmnt);
+            }
+        }
     }
 }

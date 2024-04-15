@@ -1,10 +1,21 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
+using System.Net;
+using System.Threading;
+using UnityEngine;
+using UniRx;
+using H3VC.Data;
+using Valve.VR.InteractionSystem;
+using System.Linq;
+using System;
+using HarmonyLib;
+using H3VC.VC;
+using H3VC.Test;
 // TODO: Change 'YourName' to your name. 
 namespace H3VC
 {
     // TODO: Change 'YourPlugin' to the name of your plugin
-    [BepInPlugin("CatalpaBow.H3VC", "H3VC", "0.1.0")]
+    [BepInPlugin("CatalpaBow.H3VC", "H3VC", "0.0.2")]
     [BepInProcess("h3vr.exe")]
     public partial class Mod : BaseUnityPlugin
     {
@@ -22,49 +33,42 @@ namespace H3VC
 
         private void Awake() {
             Logger = base.Logger;
-            H3VC.VoiceChat.VoiceChat.Intialize();
-
+            //H3VC.VoiceChat.VoiceChat.Intialize();
+           
+            VCMain.Intialize();
+            Harmony.CreateAndPatchAll(typeof(H3VC.View.H3VCViewPatch));
         }
 
-
+        internal Test.AudioTest audioTest;
         // The line below allows access to your plugin's logger from anywhere in your code, including outside of this file.ThreadManager.host
         // Use it with 'YourPlugin.Logger.LogInfo(message)' (or any of the other Log* methods)
         internal new static ManualLogSource Logger { get; private set; }
-
         private void Update() {
-#if DEBUG
+            
             if (Input.GetKeyDown(KeyCode.PageDown)) {
                 Mod.Logger.LogInfo("TestStart");
                 TestPacket.Send();
             }
+            if (Input.GetKeyDown(KeyCode.Insert)) {
+                Mod.Logger.LogInfo("AudioTest");
+                audioTest = new Test.AudioTest();
 
-            if(Input.GetKeyDown(KeyCode.Home)) {
-                H3VC.Mod.Logger.LogInfo("VCTest");
-                Test.TestStart();
-            }
-            if (Input.GetKeyDown(KeyCode.PageUp)) {
                 
+            }
+            if (Input.GetKeyDown(KeyCode.Home)) {
+                Mod.Logger.LogInfo("VCTestStart");
+                Tester.UserListTest();
+                Tester.Spkr_CountTest();
+            }
+
+            if (Input.GetKeyDown(KeyCode.PageUp)) {
                 Mod.Logger.LogInfo("TestConnectionStart");
                 string ip = "192.168.1.50";
                 int port = 7863;
                 IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(ip),port);
                 H3MP.Mod.OnConnectClicked(endPoint);
-                
-                /*
-                MicrophoneRecorder recoder = new MicrophoneRecorder();
-                PCMEncoder encoder = new PCMEncoder();
-                OpusDecoder decoder = new OpusDecoder();
-                PCMPlayer player = new GameObject().AddComponent<PCMPlayer>();
-                Observable.EveryUpdate()
-                          .SelectMany(_ => recoder.Recode())
-                          .SelectMany(encoder.Encode)
-                          .Select(decoder.Decode)
-                          .Subscribe(sgmnt => {
-                              player.Play(sgmnt.pcmBuffer, sgmnt.pcmLength);
-                          });
-                */
             }
-#endif
+            
         }
     }
 
