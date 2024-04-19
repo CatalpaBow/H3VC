@@ -2,6 +2,9 @@
 
 namespace H3VC.Data
 {
+    /// <summary>
+    /// Opus audio codec data
+    /// </summary>
     public class OpusSegment
     {
         public readonly byte[] data;

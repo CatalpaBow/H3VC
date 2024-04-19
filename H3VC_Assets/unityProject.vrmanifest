@@ -1,0 +1,16 @@
+{
+  "source": "Unity",
+  "applications": [
+    {
+      "app_key": "application.generated.unity.meatkit.exe",
+      "launch_type": "url",
+      "url": "steam://launch/",
+      "action_manifest_path": "D:\\Devlop\\H3VC\\H3VC_Assets\\actions.json",
+      "strings": {
+        "en_us": {
+          "name": "MeatKit [Testing]"
+        }
+      }
+    }
+  ]
+}

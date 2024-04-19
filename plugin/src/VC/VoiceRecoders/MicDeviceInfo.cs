@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace H3VC.VoiceRecoders
-{
+namespace H3VC.VoiceRecoders{
     public class MicDeviceInfo{
         public readonly int deviceID;
         public string name { get; private set; }

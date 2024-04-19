@@ -2,6 +2,8 @@
 using H3VC.Converter;
 using H3VC.Data;
 using H3VC.Network;
+using H3VC.NetworkImplement.Mute;
+using H3VC.Netwroks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,9 @@ using System.Text;
 using UniRx;
 
 namespace H3VC.Networks{
+    /// <summary>
+    /// Receive audiodata from network and decode it and publish audio event.
+    /// </summary>
     public class NetworkAudioListener : IAudioInput{
         private VoiceDecoder decoder;
 
@@ -20,19 +25,12 @@ namespace H3VC.Networks{
                              return new KeyValuePair<int, PCMSegment>(audioData.Item1, pcmSgmnt);
                          });
 
-        private Subject<KeyValuePair<int, bool>> muteDummy;
-        public IObservable<KeyValuePair<int, bool>> OnMuteChanged => muteDummy;
-
-         private Subject<KeyValuePair<int, SoundMode>> modeDummy;
-        public IObservable<KeyValuePair<int, SoundMode>> OnSoundModeChanged => modeDummy;
-
-
+        public IObservable<KeyValuePair<int, bool>> OnMuteChanged => MuteEvent.receiver
+                                                                              .OnReceivedWithSenderID;
+        public IObservable<KeyValuePair<int, SoundMode>> OnSoundModeChanged => SoundModeEvent.receiver
+                                                                                             .OnReceivedWithSenderID;
         public NetworkAudioListener() {
-            muteDummy = new Subject<KeyValuePair<int, bool>>();
-            modeDummy = new Subject<KeyValuePair<int, SoundMode>>();
             decoder = new VoiceDecoder();
         }
-
-
     }
 }

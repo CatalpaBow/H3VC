@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6d6db4144b34551885c304840edfb62, type: 3}
+  m_Name: VoiceRecoderView
+  m_EditorClassIdentifier: 
+  BundleName: miccfgview
+  Items:
+  - {fileID: 1903435429366856, guid: 3b23877dde6696b458144b8cda8a71e3, type: 2}

@@ -6,10 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UniRx;
-namespace H3VC.Speakers
-{
+namespace H3VC.Speakers{
+    /// <summary>
+    /// Add and remove speakers as users join and leave.
+    /// Call the Method of PlayerAudioSpeaker from the user ID.
+    /// </summary>
     public class PlayerAudioSpeakers : IAudioOutput{
-        public List<AudioSpeaker> speakerList;
+        public List<PlayerAudioSpeaker> speakerList;
         private readonly VCUserList userList;
         public PlayerAudioSpeakers(VCUserList _userList) {
             this.userList = _userList;
@@ -33,17 +36,17 @@ namespace H3VC.Speakers
         public void StreamAudio(int id, PCMSegment sgmnt) {
             //H3VC.Mod.Logger.LogDebug("SpeakerList PlayVoice");
             speakerList.Find(spkr => spkr.id == id)
-                      ?.Play(sgmnt);
+                       ?.Play(sgmnt);
         }
 
         public void Mute(int id, bool isMute) {
             speakerList.Find(spkr => spkr.id == id)
-                      ?.Mute(isMute);
+                       ?.Mute(isMute);
         }
 
         public void SoundMode(int id, SoundMode mode) {
             speakerList.Find(spkr => spkr.id == id)
-                      ?.SoundMode(mode);
+                       ?.SoundMode(mode);
         }
     }
 }

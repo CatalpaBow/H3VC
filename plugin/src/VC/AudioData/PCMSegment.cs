@@ -1,5 +1,8 @@
 ﻿namespace H3VC.Data
 {
+    /// <summary>
+    /// pcm audio codec data
+    /// </summary>
     public class PCMSegment
     {
         readonly public float[] pcmBuffer;

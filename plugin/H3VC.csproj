@@ -3,7 +3,7 @@
     <!-- TODO: Change these values! -->
     <PropertyGroup>
         <AssemblyName>CatalpaBow.H3VC</AssemblyName>
-        <Version>0.0.2</Version>
+        <Version>0.1.0</Version>
         <Authors>CatalpaBow</Authors>
         <AssemblyTitle>H3VC</AssemblyTitle>
         <Description>Add 3d audio voicechat to H3MP</Description>
@@ -55,6 +55,9 @@
       <Reference Include="H3MP">
         <HintPath>dlls\H3MP.dll</HintPath>
       </Reference>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="src\VC\SandBox\" />
     </ItemGroup>
   <PropertyGroup>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>

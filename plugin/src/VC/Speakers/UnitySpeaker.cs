@@ -15,11 +15,8 @@ namespace H3VC.Speakers
         int head = 0;
         float[] audioClipData;
 
-        void OnEnable() {
-            source = GetComponent<AudioSource>();
-            source.spatialBlend = 1;
-            source.clip = AudioClip.Create("Voice", audioClipLength, (int)NumChannels.Mono, (int)frequency, false);
-            source.loop = true;
+        void Awake() {
+            Intialize(1);
         }
         public void Intialize(int channels) {
             source = GetComponent<AudioSource>();
@@ -27,6 +24,15 @@ namespace H3VC.Speakers
             source.clip = AudioClip.Create("Voice", audioClipLength, channels, (int)frequency, false);
             source.loop = true;
         }
+
+        public void DontPlaySound(bool isMute) {
+            if (isMute) {
+                source.volume = 0f;
+                return;
+            }
+            source.volume = 1.0f;
+        }
+
 
         void OnDisable() {
             source.Stop();

@@ -11,10 +11,8 @@ namespace H3VC.Test
     internal class AudioTest{
         private VoiceRecoder recoder;
         private UnitySpeaker spkr;
-        public AudioTest() {
-            H3VC.VoiceRecoders.MicImpement.NAudioMic mic = new H3VC.VoiceRecoders.MicImpement.NAudioMic();
-            recoder = new VoiceRecoder(mic);
-
+        public AudioTest(VoiceRecoder recoder) {
+            this.recoder = recoder;
             spkr = new GameObject().AddComponent<UnitySpeaker>();
             spkr.SetPositional(false);
             recoder.OnAudioReady.Subscribe(data => spkr.Play(data.Value));

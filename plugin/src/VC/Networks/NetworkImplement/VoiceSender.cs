@@ -2,6 +2,9 @@
 using H3VC.Data;
 namespace H3VC.Network
 {
+    /// <summary>
+    /// Send audiodata and vc event.
+    /// </summary>
     static class VoiceSender
     {
         public const string packetID = "H3VC_VoiceData";

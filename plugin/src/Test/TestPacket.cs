@@ -1,4 +1,8 @@
 ﻿using H3MP.Networking;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 namespace H3VC
 {
     public static class TestPacket
@@ -20,5 +24,18 @@ namespace H3VC
             pkt.Write("HelloWorldYoYo");
             ClientSend.SendTCPData(pkt);
         }
+
+        public static void Test() {
+        }
     }
+
+    public class H3VRRaycaster : BaseRaycaster
+    {
+        public override Camera eventCamera => throw new System.NotImplementedException();
+
+        public override void Raycast(PointerEventData eventData, List<RaycastResult> resultAppendList) {
+            throw new System.NotImplementedException();
+        }
+    }
+
 }

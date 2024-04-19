@@ -1,10 +1,16 @@
-﻿using System;
+﻿using FistVR;
+using System;
 using UniRx;
 using UnityEngine;
 namespace H3VC.VoiceRecoders.MicImplement
 {
+    /// <summary>
+    /// Implementation with default unity microphone
+    /// </summary>
+    [Obsolete("",true)]
     public class UnityVoiceMic 
     {
+        
         /*
         const int samplingFrequency = 48000;
         const int lengthSeconds = 1;

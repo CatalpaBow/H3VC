@@ -17,7 +17,30 @@ package AudioPipelines{
         + IObservable<int,SoundMode> OnSoundModeChanged
     }
 }
+package NetworkServer{
+    class AudioRelayServer{
+        
+    }
 
+    class Relay{
+
+    }
+    class Send{
+
+    }
+    class Receive{
+
+    }
+    
+}
+package NetworkClients{
+    class NetworkClient{
+        - IEnumerable[Funcs] SenderFuncs; 
+        + void Send(EventFuncs funcs,)
+        + void Receive()
+    }
+
+}
 
 package Network{
     class NetworkAudioListener{
@@ -25,6 +48,14 @@ package Network{
     }
     class NetwrokAudioStreamer{
         + void Send(PCMSegment sgmnt)
+    }
+    package NetworkImplement{
+        class VoiceSender{
+
+        }
+        class VoiceReceiver{
+
+        }
     }
 }
 package VCUsers{
@@ -73,7 +104,22 @@ package H3MPWrapper{
         IObservable<
     }
 }
+package AudioData{
+    class PCMSegment{
 
+    }
+    class OpusSegment{
+
+    }
+}
+package AudioConverter{
+    class VoiceEncoder{
+
+    }
+    class VoiceDecoder{
+
+    }
+}
 IAudioOutput <|.. NetwrokAudioStreamer
 IAudioOutput <|.. VCUserAudioSpeaker
 IAudioInput <|.. VoiceRecoder 

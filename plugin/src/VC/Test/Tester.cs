@@ -27,9 +27,9 @@ namespace H3VC.Test
         }
         public static void Spkr_CountTest() {
             H3VC.Mod.Logger.LogDebug("-----------" + System.Reflection.MethodBase.GetCurrentMethod().Name + "-----------");
-            Mod.Logger.LogDebug("spkeakerListCount:" + VCMain.speakerList.speakerList.Count);
+            Mod.Logger.LogDebug("spkeakerListCount:" + VCMain.speakers.speakerList.Count);
             Mod.Logger.LogDebug("UserListCount:" + VCMain.userList.crntUserIDs.Count);
-            Assert(VCMain.speakerList.speakerList.Count == H3MP.GameManager.players.Count);
+            Assert(VCMain.speakers.speakerList.Count == H3MP.GameManager.players.Count);
         }
 
     }

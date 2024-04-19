@@ -6,9 +6,12 @@ using System.Text;
 using UniRx;
 using UnityEngine;
 
-namespace H3VC.VoiceRecoders.MicImpement
-{
-    public class NAudioMic : Microphone
+namespace H3VC.VoiceRecoders.MicImpement{
+    /// <summary>
+    /// Implementation with NAudio that .NET audio library.
+    /// <see href="https://github.com/naudio/NAudio">Github Link</see>
+    /// </summary>
+    public class NAudioMic : BaseMicrophone
     {
         public override IObservable<float[]> OnAudioReady => OnAudioReadySubject;
         private Subject<float[]> OnAudioReadySubject;
@@ -60,14 +63,28 @@ namespace H3VC.VoiceRecoders.MicImpement
         public override void StartRecoding() {
             waveIn.StartRecording();
         }
-        public override void ChangeDevice(int newDeviceNumber) {
+        public override MicDeviceInfo ChangeDevice(int newDeviceNumber) {
+            waveIn.StopRecording();
+            waveIn.Dispose();
+
+            waveIn = new WaveInEvent();
             waveIn.DeviceNumber = newDeviceNumber;
+            waveIn.WaveFormat = new WaveFormat(48000, 1);
+            waveIn.BufferMilliseconds = 10;
+            waveIn.DataAvailable += DataAvailableHandler;
+
+            waveIn.StartRecording();
+            return new MicDeviceInfo(newDeviceNumber, WaveIn.GetCapabilities(newDeviceNumber).ProductName);
         }
 
         public override IEnumerable<MicDeviceInfo> ShowDevices() {
             for (int i = 0; i < WaveIn.DeviceCount; i++) {
                 yield return new MicDeviceInfo(i, WaveIn.GetCapabilities(i).ProductName);
             }
+        }
+
+        public override int DeviceCount() {
+            return WaveIn.DeviceCount;
         }
 
 

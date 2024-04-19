@@ -11,11 +11,13 @@ using System;
 using HarmonyLib;
 using H3VC.VC;
 using H3VC.Test;
+using H3VC.Presenter;
+using H3VC.src.View;
 // TODO: Change 'YourName' to your name. 
 namespace H3VC
 {
     // TODO: Change 'YourPlugin' to the name of your plugin
-    [BepInPlugin("CatalpaBow.H3VC", "H3VC", "0.0.2")]
+    [BepInPlugin("CatalpaBow.H3VC", "H3VC", "0.1.0")]
     [BepInProcess("h3vr.exe")]
     public partial class Mod : BaseUnityPlugin
     {
@@ -33,10 +35,9 @@ namespace H3VC
 
         private void Awake() {
             Logger = base.Logger;
-            //H3VC.VoiceChat.VoiceChat.Intialize();
-           
             VCMain.Intialize();
-            Harmony.CreateAndPatchAll(typeof(H3VC.View.H3VCViewPatch));
+            ViewMain.Intialize();
+            PresenterMain.Intialize(VCMain.recoder);
         }
 
         internal Test.AudioTest audioTest;
@@ -51,10 +52,14 @@ namespace H3VC
             }
             if (Input.GetKeyDown(KeyCode.Insert)) {
                 Mod.Logger.LogInfo("AudioTest");
-                audioTest = new Test.AudioTest();
-
-                
+                audioTest = new Test.AudioTest(VCMain.recoder);   
             }
+
+            if(Input.GetKeyDown(KeyCode.Delete)) {
+                Mod.Logger.LogInfo("AssetBundleTest");
+                AssetBundleLoadTest.Test();
+            }
+
             if (Input.GetKeyDown(KeyCode.Home)) {
                 Mod.Logger.LogInfo("VCTestStart");
                 Tester.UserListTest();

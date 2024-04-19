@@ -2,6 +2,9 @@
 using UnityOpus;
 namespace H3VC.Converter
 {
+    /// <summary>
+    /// Decode opus to pcm.
+    /// </summary>
     public class VoiceDecoder
     {
         const NumChannels channels = NumChannels.Mono;

@@ -4,6 +4,10 @@ using System;
 using UniRx;
 namespace H3VC.Network
 {
+    /// <summary>
+    /// Receive audiodata and vc event.
+    /// 
+    /// </summary>
     public class VoiceReceiver : IDisposable{
         public static VoiceReceiver Instance => _instance ?? (_instance = new VoiceReceiver());
         private static VoiceReceiver _instance;
@@ -15,7 +19,12 @@ namespace H3VC.Network
             voiceReceivedStream = new Subject<Tuple<int, OpusSegment>>();
             H3MP.Mod.GenericCustomPacketReceived += PacketHandler;
         }
-
+        /// <summary>
+        /// Handle packet and Publish received event.
+        /// </summary>
+        /// <param name="clientID"></param>
+        /// <param name="name"></param>
+        /// <param name="pkt"></param>
         private void PacketHandler(int clientID, string name, Packet pkt) {
             if (name != packetName) {
                 return;

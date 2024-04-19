@@ -1,8 +1,10 @@
 ﻿using H3VC.Data;
 using System.Collections.Generic;
 using UnityOpus;
-namespace H3VC.Converter
-{
+namespace H3VC.Converter{
+    /// <summary>
+    /// encode pcm to opus
+    /// </summary>
     public class VoiceEncoder
     {
         const int bitrate = 96000;
@@ -30,7 +32,8 @@ namespace H3VC.Converter
             encoder = null;
             pcmQueue.Clear();
         }
-
+        /// <param name="data">pcmData</param>
+        /// <returns>Encoded opus datas</returns>
         public IEnumerable<OpusSegment> Encode(float[] data) {
             foreach (var sample in data) {
                 pcmQueue.Enqueue(sample);

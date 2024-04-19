@@ -7,6 +7,7 @@ namespace H3VC.VoiceRecoders
 {
     public interface IMutipleDevice{
         IEnumerable<MicDeviceInfo> ShowDevices();
-        void ChangeDevice(int deviceID);
+        MicDeviceInfo ChangeDevice(int deviceID);
+        int DeviceCount();
     }
 }
