@@ -20,7 +20,7 @@ namespace H3VC.VoiceRecoders.MicImpement{
         private WaveInEvent waveIn;
         public NAudioMic() {
             OnAudioReadySubject = new Subject<float[]>();
-            floatSamples = new float[2048];
+            floatSamples = new float[4096];
             var deviceNumber = 0;
             waveIn = new WaveInEvent();
             waveIn.DeviceNumber = deviceNumber;
@@ -32,8 +32,7 @@ namespace H3VC.VoiceRecoders.MicImpement{
         private void DataAvailableHandler(object sender, WaveInEventArgs e) {
             try {
                 int recodedPartLength = Bit16ToNormizedFloat(ref floatSamples, e);
-                float[] recodedSamples = CutRecodedSamples(recodedPartLength)
-                                                    .ToArray();
+                float[] recodedSamples = CutRecodedSamples(recodedPartLength);
                 OnAudioReadySubject.OnNext(recodedSamples);
             } catch (Exception ex) {
                 Mod.Logger.LogError(ex);
@@ -51,7 +50,7 @@ namespace H3VC.VoiceRecoders.MicImpement{
                 float sample32 = sample / 32768f;
                 floatSamples[index / 2] = sample32;
             }
-            return index / 2;
+            return index  / 2;
         }
 
         private float[] CutRecodedSamples(int recodedPartLength) {

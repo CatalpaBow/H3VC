@@ -52,8 +52,8 @@ namespace H3VC.VoiceRecoders{
             if(val < 0) {
                 val = 0;
             }
-            if(val > 1) {
-                val = 1;
+            if(val > 2.0) {
+                val = 2.0f;
             }
             volume.Value = val;
         }

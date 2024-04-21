@@ -75,6 +75,7 @@ namespace UnityOpus
 
             //Excute FreeLibrary if process is exit.
             AppDomain.CurrentDomain.ProcessExit += ProcessExitHandler;
+            AppDomain.CurrentDomain.UnhandledException　+= ProcessExitHandler;
         }
 
 

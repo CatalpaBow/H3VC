@@ -15,6 +15,7 @@ namespace H3VC.Test
             this.recoder = recoder;
             spkr = new GameObject().AddComponent<UnitySpeaker>();
             spkr.SetPositional(false);
+            H3VC.Mod.Logger.LogInfo(AudioSettings.outputSampleRate);
             recoder.OnAudioReady.Subscribe(data => spkr.Play(data.Value));
         }
 

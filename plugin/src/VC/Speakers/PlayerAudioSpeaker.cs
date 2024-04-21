@@ -15,8 +15,8 @@ namespace H3VC.Speakers{
     /// </summary>
     public class PlayerAudioSpeaker {
         public readonly int id;
-        private SoundMode soundMode;
-        private bool isMute;
+        private SoundMode soundMode = Data.SoundMode.positional;
+        private bool isMute = false;
 
         private UnitySpeaker voicePlayer;
 

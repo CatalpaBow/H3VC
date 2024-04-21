@@ -24,13 +24,4 @@ namespace H3VC.View.FVRComponent{
             }
         }
     }
-
-    public class FVRScrollRect {
-        private ScrollRect scrollRect;
-
-
-        public void Hoge() {
-            PointerEventData evntData = new PointerEventData(EventSystem.current);
-        }
-    }
 }

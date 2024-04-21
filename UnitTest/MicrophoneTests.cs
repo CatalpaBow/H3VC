@@ -86,6 +86,13 @@ namespace UnitTest{
                 recoder.PreviousSoundMode();
             }
         }
+        [Fact]
+        public async void SamplesAverageTst() {
+            int samplesCount = 0;
+            recoder.OnAudioReady.Subscribe(data => samplesCount += data.Value.pcmBuffer.Length);
+            await Task.Delay(100000);
+            _output.WriteLine(samplesCount.ToString());
+        }
     }
 
 }

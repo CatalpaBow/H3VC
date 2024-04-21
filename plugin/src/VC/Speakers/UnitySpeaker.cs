@@ -1,19 +1,20 @@
 ﻿using H3VC.Data;
+using Steamworks;
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityOpus;
 namespace H3VC.Speakers
 {
     [RequireComponent(typeof(AudioSource))]
-    public class UnitySpeaker : MonoBehaviour
-    {
+    public class UnitySpeaker : MonoBehaviour {
         const NumChannels channels = NumChannels.Mono;
         const SamplingFrequency frequency = SamplingFrequency.Frequency_48000;
         const int audioClipLength = 48000;
         const int delaySamplesLength = (int)(audioClipLength * 0.01 * 8);
-        AudioSource source;
-        int head = 0;
-        float[] audioClipData;
+        public AudioSource source { get;private set; }
+        public int head { get; private set; } = 0;
+        float[] samplesBuf;
 
         void Awake() {
             Intialize(1);
@@ -39,32 +40,49 @@ namespace H3VC.Speakers
         }
 
         public void Play(PCMSegment sgmnt) {
-            Play(sgmnt.pcmBuffer, sgmnt.pcmLength);
+            Play(sgmnt.pcmBuffer,sgmnt.pcmLength);
         }
-        public void Play(float[] pcm, int pcmLength) {
-            Log();
-            if (audioClipData == null || audioClipData.Length != pcmLength) {
+        public void Play(float[] samples,int samplesLength) {
+            
+            if (samplesBuf == null || samplesBuf.Length != samplesLength + 2) {
                 // assume that pcmLength will not change.
-                audioClipData = new float[pcmLength];
-                H3VC.Mod.Logger.LogInfo("audioClipDataSize is changed:" + pcmLength);
+                samplesBuf = new float[samplesLength + 2];
+                H3VC.Mod.Logger.LogInfo("samplesBufSize is changed:" + samplesLength + 2);
             }
+            Array.Copy(samples, 0, samplesBuf,1,samplesLength);
+            samplesBuf[0] = samplesBuf[1];
+            samplesBuf[samplesBuf.Length-1] = samplesBuf[samplesBuf.Length - 2];
 
-            //int remainSamples = source.clip.samples - head;
+            source.clip.SetData(samplesBuf, head);
+            head += samplesBuf.Length; 
+            head %= source.clip.samples;
 
-            Array.Copy(pcm, audioClipData, pcmLength);
-            source.clip.SetData(audioClipData, head);
-
-            head += pcmLength;
+            //Play if the head has advanced enough.
             if (!source.isPlaying && head > delaySamplesLength) {
+                H3VC.Mod.Logger.LogInfo("Played");
                 source.Play();
             }
+            int distance = 0;
+            if (source.timeSamples > head) {
+                distance = head + source.clip.samples - source.timeSamples;
+            } else {
+                //ループしていない
+                distance = head - source.timeSamples;
+            }
 
-            /* 再生速度のズレの補正をする */
+            if (distance > delaySamplesLength + delaySamplesLength / 2) {
+                int modifedPos = head - delaySamplesLength;
+                source.timeSamples = modifedPos < 0 ? source.clip.samples + modifedPos : modifedPos;
+            }
+
+            /* 旧補正
             if ( (source.timeSamples + delaySamplesLength/2) > head || source.timeSamples < (head - delaySamplesLength - delaySamplesLength/2) ) {
                 int modifedPos = head - delaySamplesLength;
                 source.timeSamples = modifedPos < 0 ? source.clip.samples + modifedPos : modifedPos;
             }
-            head %= audioClipLength;
+            */
+
+            Log();
         }
         public void SetInScene() {
             source.spatialBlend = 0;
@@ -81,20 +99,32 @@ namespace H3VC.Speakers
 
         private int previousTimeSamples = 0;
         private int previousDistance = 0;
+        private int previousHead = 0;
         public void Log() {
-            /*
-            if(audioClipData == null){
+
+            if (!source.isPlaying) {
                 return;
             }
+            /*
             if(previousTimeSamples == source.timeSamples) {
                 return;
             }
-            int distance = head > source.timeSamples ? head - source.timeSamples : source.clip.samples - source.timeSamples + head;
-
-            Mod.Logger.LogInfo("\nHead:" + head + "\nTimeSamples:" + source.timeSamples + "\nDistance:" + distance + "\nTimeSamplesDelta:" + (source.timeSamples-previousTimeSamples) +"\nDistanceDelta:" + (distance - previousDistance));
+            */
+            /*
+            //int distance = head > source.timeSamples ? head - source.timeSamples : source.clip.samples - source.timeSamples + head;
+            int distance;
+            if (source.timeSamples > head) {
+                distance = head + source.clip.samples - source.timeSamples;
+            } else {
+                //ループしていない
+                distance = head - source.timeSamples;
+            }
+            Mod.Logger.LogInfo("\nHead:" + head + "\nTimeSamples:" + source.timeSamples + "\nDistance:" + distance + "\nTimeSamplesDelta:" + (source.timeSamples-previousTimeSamples) + "\nHeadDelta:" + (head - previousHead) + "\nDistanceDelta:" + (distance - previousDistance));
             previousDistance = distance;
             previousTimeSamples = source.timeSamples;
+            previousHead = head;
             */
+            
         }
     }
 }

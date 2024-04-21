@@ -45,7 +45,7 @@ namespace H3VC
         // Use it with 'YourPlugin.Logger.LogInfo(message)' (or any of the other Log* methods)
         internal new static ManualLogSource Logger { get; private set; }
         private void Update() {
-            
+#if DEBUG
             if (Input.GetKeyDown(KeyCode.PageDown)) {
                 Mod.Logger.LogInfo("TestStart");
                 TestPacket.Send();
@@ -73,7 +73,7 @@ namespace H3VC
                 IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(ip),port);
                 H3MP.Mod.OnConnectClicked(endPoint);
             }
-            
+#endif            
         }
     }
 

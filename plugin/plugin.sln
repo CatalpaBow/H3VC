@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3VC", "H3VC.csproj", "{2F67BBA9-0B0D-4959-8239-71A96968EAA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "..\UnitTest\UnitTest.csproj", "{EE6FFFBF-5644-49BC-A7AC-8FED4A9C5562}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest", "..\UnitTest\UnitTest.csproj", "{EE6FFFBF-5644-49BC-A7AC-8FED4A9C5562}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

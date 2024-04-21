@@ -38,6 +38,7 @@ Copy-Item "${OutputPath}${PluginName}.dll" $TempDir
 Copy-Item "${OutputPath}${PluginName}.dll.mdb" $TempDir -ErrorAction Ignore
 Copy-Item (Join-Path $RootDir "plugin\src\Library\unityopus\Plugins\x64\UnityOpus.dll") $TempDir
 Copy-Item (Join-Path $RootDir "plugin\src\Library\NAudio.dll") $TempDir
+Copy-Item (Join-Path $RootDir "H3VC_Assets\AssetBundles\H3VC\0.0.2\miccfgview") $TempDir
 # Copy all our extra files into the output dir
 foreach ($ExtraFile in $ExtraFiles)
 {

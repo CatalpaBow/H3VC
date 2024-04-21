@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UniRx;
+using UnityEngine;
 namespace H3VC.Presenter
 {
     public class VoiceRecoderPresenter{
@@ -37,8 +38,8 @@ namespace H3VC.Presenter
             model.soundMode.Subscribe(mode => view.ChangeSoundMode(mode.ToString())).AddTo(view);
             model.crntDevice.Subscribe(info => view.ChangeDeviceName(info.name)).AddTo(view);
             model.VoiceLevel.Subscribe(level => view.SetVoiceLevel(level)).AddTo(view);
-            model.volume.Select(val => val*100)
-                        .Subscribe(percent => view.ChangeVolumeNum((int)percent));
+            model.volume.Select(val => (int)( Math.Round(val *10) * 10))
+                        .Subscribe(percent => view.ChangeVolumeNum(percent));
         }
 
         public void ResetView(VoiceRecoderView view) {

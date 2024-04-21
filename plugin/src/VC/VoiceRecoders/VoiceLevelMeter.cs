@@ -11,6 +11,7 @@ namespace H3VC.VoiceRecoders{
         private VoiceRecoder recoder;
         private ReactiveProperty<float> _crntVoiceLevel;
         public IReadOnlyReactiveProperty<float> VoiceLevel => _crntVoiceLevel;
+        private List<float> averageBuf;
         //このdBでlevelMeter表示の下限に到達する
         [SerializeField]
         private float dB_Min = -80.0f;
@@ -19,17 +20,36 @@ namespace H3VC.VoiceRecoders{
         private float dB_Max = -0.0f;
 
         public VoiceLevelMeter(VoiceRecoder _recoder){
+            averageBuf = new List<float>();
             recoder = _recoder;
             _crntVoiceLevel = new ReactiveProperty<float>();
             Intialize();
         }
         private void Intialize(){
+            
             //Pusblish voiceLevel by 16 milsec.
             Observable.ThrottleFirst(recoder.OnAudioReady,TimeSpan.FromMilliseconds(16))
                       .Select(samples => samples.Value.pcmBuffer.Average())
                       .Select(ToDecibel)
                       .Select(Normalization)
                       .Subscribe(level => _crntVoiceLevel.Value = level);
+            
+            ///Pusblish voiceLevel by every update.
+            /*
+            recoder.OnAudioReady
+                   .Select(samples => samples.Value.pcmBuffer.Average())
+                   .Subscribe(ave => averageBuf.Add(ave));
+            Observable.EveryUpdate()
+                      .Select(_ => averageBuf.Average())
+                      .Select(ToDecibel)
+                      .Select(Normalization)
+                      .Subscribe(level => {
+                          _crntVoiceLevel.Value = level;      
+                          averageBuf.Clear();
+                      });
+            */
+
+
         }
         float Normalization(float dB)
         {
