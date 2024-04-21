@@ -11,6 +11,8 @@ localScene sounds non-positionally to users within the scene you are currently i
 global will be heard by users in all scenes, including other scenes.
 
 # ChangeLog
+0.1.1
+ - Resubmission to thunderstore
 0.1.0
 ### Added
  - Add GUI Audio Setting menu

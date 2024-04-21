@@ -17,7 +17,7 @@ using H3VC.src.View;
 namespace H3VC
 {
     // TODO: Change 'YourPlugin' to the name of your plugin
-    [BepInPlugin("CatalpaBow.H3VC", "H3VC", "0.1.0")]
+    [BepInPlugin("CatalpaBow.H3VC", "H3VC", "0.1.1")]
     [BepInProcess("h3vr.exe")]
     public partial class Mod : BaseUnityPlugin
     {

@@ -3,7 +3,7 @@
     <!-- TODO: Change these values! -->
     <PropertyGroup>
         <AssemblyName>CatalpaBow.H3VC</AssemblyName>
-        <Version>0.1.0</Version>
+        <Version>0.1.1</Version>
         <Authors>CatalpaBow</Authors>
         <AssemblyTitle>H3VC</AssemblyTitle>
         <Description>Add 3d audio voicechat to H3MP</Description>
